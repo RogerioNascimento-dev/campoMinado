@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {View, Text, StyleSheet, StatusBar, Alert} from 'react-native';
 import params from './src/params';
 import MineField from './src/components/MineField';
+import Head from './src/components/Head';
 import {
     createMineBoard,
     cloneBoard,
@@ -63,15 +64,22 @@ export default class App extends Component {
         this.setState({board, won});
     };
 
+    onFlagPress = () => {
+        Alert.alert('Eita', 'Cliquei');
+    };
+
     render() {
         return (
             <>
                 <StatusBar backgroundColor="#FFF" barStyle="dark-content" />
+                <Head
+                    flagsLeft={
+                        this.minesAmount() - flagedUsed(this.state.board)
+                    }
+                    onNewGame={() => this.setState(this.createState())}
+                    onFlagPress={() => this.onFlagPress()}
+                />
                 <View style={styles.container}>
-                    <Text style={styles.welcome}>Tamanho da grade</Text>
-                    <Text style={styles.welcome}>
-                        {params.getRowsAmount()}X{params.getCollunsAmount()}
-                    </Text>
                     <View style={styles.board}>
                         <MineField
                             board={this.state.board}
@@ -89,6 +97,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'flex-end',
+        backgroundColor: '#AAA',
         alignItems: 'center',
     },
     board: {
