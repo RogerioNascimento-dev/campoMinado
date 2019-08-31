@@ -1,42 +1,55 @@
-import React from 'react';
-import {View, Text, StatusBar, StyleSheet} from 'react-native';
+import React, {Component} from 'react';
+import {View, Text, StyleSheet, StatusBar} from 'react-native';
 import params from './src/params';
-import Field from './src/components/Field';
+import MineField from './src/components/MineField';
+import {createMineBoard} from './src/functions';
 
-const App = () => {
-    return (
-        <>
-            <StatusBar barStyle="dark-content" />
-            <View style={styles.container}>
-                <Text style={styles.welcome}>Tamanho da grade</Text>
-                <Text style={styles.welcome}>
-                    {params.getRowsAmount()}X{params.getCollunsAmount()}
-                </Text>
-                <Field />
-                <Field opened />
-                <Field opened nearMines={1} />
-                <Field opened nearMines={2} />
-                <Field opened nearMines={3} />
-                <Field opened nearMines={6} />
-                <Field mined />
-                <Field mined opened />
-                <Field mined opened exploded />
-            </View>
-        </>
-    );
-};
+export default class App extends Component {
+    constructor(props) {
+        super(props);
+        this.state = this.createState();
+    }
+
+    minesAmount = () => {
+        const cols = params.getCollunsAmount();
+        const rows = params.getRowsAmount();
+        return Math.ceil(cols * rows * params.difficultLevel);
+    };
+
+    createState = () => {
+        const cols = params.getCollunsAmount();
+        const rows = params.getRowsAmount();
+        return {
+            board: createMineBoard(rows, cols, this.minesAmount()),
+        };
+    };
+
+    render() {
+        return (
+            <>
+                <StatusBar backgroundColor="#FFF" barStyle="dark-content" />
+                <View style={styles.container}>
+                    <Text style={styles.welcome}>Tamanho da grade</Text>
+                    <Text style={styles.welcome}>
+                        {params.getRowsAmount()}X{params.getCollunsAmount()}
+                    </Text>
+                    <View style={styles.board}>
+                        <MineField board={this.state.board} />
+                    </View>
+                </View>
+            </>
+        );
+    }
+}
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
+        justifyContent: 'flex-end',
         alignItems: 'center',
-        backgroundColor: '#f5f5f5',
     },
-    welcome: {
-        fontSize: 20,
+    board: {
+        backgroundColor: '#AAA',
         textAlign: 'center',
     },
 });
-
-export default App;

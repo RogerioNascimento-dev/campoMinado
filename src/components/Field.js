@@ -2,9 +2,10 @@ import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import params from '../params';
 import Mine from './Mine';
+import Flag from './Flag';
 
 export default props => {
-    const {mined, opened, nearMines, exploded} = props;
+    const {mined, opened, nearMines, exploded, flaged} = props;
 
     const styleField = [styles.field];
     if (opened) {
@@ -13,8 +14,11 @@ export default props => {
     if (exploded) {
         styleField.push(styles.exploded);
     }
-    if (styleField.length === 1) {
+    if (!opened && !exploded) {
         styleField.push(styles.regular);
+    }
+    if (flaged) {
+        styleField.push(styles.flaged);
     }
 
     let color = null;
@@ -33,6 +37,7 @@ export default props => {
                 false
             )}
             {mined && opened ? <Mine /> : false}
+            {flaged && !opened ? <Flag /> : false}
         </View>
     );
 };
