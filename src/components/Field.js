@@ -23,10 +23,18 @@ export default props => {
 
     let color = null;
     if (nearMines > 0) {
-        color = nearMines == 1 ? '#2A28D7' : null;
-        color = nearMines == 2 ? '#2B520F' : null;
-        color = nearMines > 2 && nearMines < 6 ? '#F9060A' : null;
-        color = nearMines >= 6 ? '#F221A9' : null;
+        if (nearMines == 1) {
+            color = '#2B520F';
+        }
+        if (nearMines == 2) {
+            color = '#2A28D7';
+        }
+        if (nearMines > 2 && nearMines < 6) {
+            color = '#F9060A';
+        }
+        if (nearMines >= 6) {
+            color = '#F221A9';
+        }
     }
 
     return (
@@ -36,7 +44,7 @@ export default props => {
             <View style={styleField}>
                 {!mined && opened && nearMines > 0 ? (
                     <Text style={[styles.label, {color: color}]}>
-                        {nearMines}{' '}
+                        {nearMines}
                     </Text>
                 ) : (
                     false

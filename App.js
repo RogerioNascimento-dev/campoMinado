@@ -3,6 +3,8 @@ import {View, Text, StyleSheet, StatusBar, Alert} from 'react-native';
 import params from './src/params';
 import MineField from './src/components/MineField';
 import Head from './src/components/Head';
+import LevelSelection from './src/Screens/LevelSelection';
+
 import {
     createMineBoard,
     cloneBoard,
@@ -33,6 +35,7 @@ export default class App extends Component {
             board: createMineBoard(rows, cols, this.minesAmount()),
             won: false,
             lost: false,
+            showLevelSelection: false,
         };
     };
 
@@ -64,20 +67,28 @@ export default class App extends Component {
         this.setState({board, won});
     };
 
-    onFlagPress = () => {
-        Alert.alert('Eita', 'Cliquei');
+    onLevelSelected = level => {
+        params.difficultLevel = level;
+        this.setState(this.createState());
     };
 
     render() {
         return (
             <>
                 <StatusBar backgroundColor="#FFF" barStyle="dark-content" />
+                <LevelSelection
+                    isVisible={this.state.showLevelSelection}
+                    onLevelSelected={this.onLevelSelected}
+                    onCancel={() => this.setState({showLevelSelection: false})}
+                />
                 <Head
                     flagsLeft={
                         this.minesAmount() - flagedUsed(this.state.board)
                     }
                     onNewGame={() => this.setState(this.createState())}
-                    onFlagPress={() => this.onFlagPress()}
+                    onFlagPress={() =>
+                        this.setState({showLevelSelection: true})
+                    }
                 />
                 <View style={styles.container}>
                     <View style={styles.board}>
