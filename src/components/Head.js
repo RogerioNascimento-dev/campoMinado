@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import Flag from './Flag';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 export default props => {
     return (
@@ -14,7 +15,8 @@ export default props => {
                 <Text style={styles.flagsLeft}> = {props.flagsLeft}</Text>
             </View>
             <TouchableOpacity style={styles.button} onPress={props.onNewGame}>
-                <Text style={styles.buttonLabel}>Novo Jogo</Text>
+                <Icon name="fiber-new" size={35} color="#FFF" />
+                <Text style={styles.buttonLabel}>Game</Text>
             </TouchableOpacity>
         </View>
     );
@@ -43,7 +45,7 @@ const styles = StyleSheet.create({
         marginLeft: 20,
     },
     button: {
-        backgroundColor: '#999',
+        flexDirection: 'row',
         padding: 5,
         borderWidth: 2,
         backgroundColor: '#999',
@@ -53,6 +55,7 @@ const styles = StyleSheet.create({
         borderBottomColor: '#333',
     },
     buttonLabel: {
+        marginTop: 5,
         fontSize: 20,
         color: '#FFF',
         fontWeight: 'bold',
